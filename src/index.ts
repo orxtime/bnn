@@ -46,7 +46,7 @@ export class CBNNLayer implements IBNNLayer {
   public classes: Record<string, IBNNClassInfo> = {}
 
   private _normalizer = async (phrase: string): Promise<string> => { return phrase }
-  private _tokenizer = async (phrase: string): Promise<Array<string>> => { return phrase.split(/\s+/gm) }
+  private _tokenizer = async (phrase: string): Promise<Array<string>> => { return phrase.toUpperCase().split(/[\s\.,;:?!"']+/gm) }
   private _sanitizer = async (tokens: Array<string>): Promise<Array<string>> => { return tokens }
   private _limitizer = async (classFrequency: number, tokenFrequency: number): Promise<boolean> => { return classFrequency > 0 && tokenFrequency > 1 }
 
