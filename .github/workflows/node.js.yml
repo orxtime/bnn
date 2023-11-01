@@ -43,10 +43,9 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-          registry-url: 'https://registry.npmjs.org/'
+          registry-url: 'https://npm.pkg.github.com/'
           node-version-file: '.nvmrc'
-      - run: npm cache clean --force
       - run: npm ci
       - run: npm publish
         env:
-          NPM_CONFIG_TOKEN: ${{secrets.NPM}}
+          NPM_CONFIG_TOKEN: ${{secrets.PACKAGES}}
