@@ -48,3 +48,6 @@ jobs:
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.PACKAGES}}
+          NPM_TOKEN: ${{secrets.PACKAGES}}
+          GITHUB_TOKEN: ${{secrets.PACKAGES}}
+          NPM_CONFIG_TOKEN: ${{secrets.PACKAGES}}
