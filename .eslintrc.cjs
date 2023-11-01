@@ -1,9 +1,14 @@
 /* eslint-env node */
 module.exports = {
-  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'prettier'
+  ],
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint'],
   root: true,
+  ignorePatterns: ['**/dist/*.js'],
   rules: {
     'no-undef': 0,
     'no-useless-escape': 0,
@@ -11,31 +16,31 @@ module.exports = {
     'lines-around-comment': [
       'error',
       {
-        'beforeBlockComment': true
+        beforeBlockComment: true
       }
     ],
     'no-multiple-empty-lines': [
       'error',
       {
-        'max': 2,
-        'maxEOF': 0
+        max: 2,
+        maxEOF: 0
       }
     ],
     'comma-dangle': ['error', 'never'],
     'arrow-parens': ['error', 'always'],
     'no-console': 'warn',
-    'indent': [
+    indent: [
       'error',
       2,
       {
-        'SwitchCase': 1
+        SwitchCase: 1
       }
     ],
     'linebreak-style': ['error', 'unix'],
-    'quotes': ['error', 'single'],
-    'semi': ['error', 'never'],
+    quotes: ['error', 'single'],
+    semi: ['error', 'never'],
     '@typescript-eslint/explicit-module-boundary-types': ['error'],
-    'camelcase': 2,
+    camelcase: 2,
     'no-empty': 'error'
   }
 }
