@@ -5,7 +5,7 @@ name: GitHub Package Publisher
 
 on:
   release:
-    types: [created, update]
+    types: [created, edited]
 
 jobs:
   build:
