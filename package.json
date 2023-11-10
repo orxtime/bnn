@@ -1,5 +1,5 @@
 {
-  "name": "bnn",
+  "name": "bolt-bnn",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,7 +13,7 @@
     "commitlint": "commitlint --edit"
   },
   "publishConfig": {
-    "@orxtime:registry": "https://npm.pkg.github.com"
+    "@orxtime:registry": "https://registry.npmjs.org"
   },
   "keywords": [],
   "author": "",
