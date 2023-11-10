@@ -13,7 +13,7 @@
     "commitlint": "commitlint --edit"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "@orxtime:registry": "https://npm.pkg.github.com"
   },
   "keywords": [],
   "author": "",
