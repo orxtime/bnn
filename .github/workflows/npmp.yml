@@ -40,16 +40,12 @@ jobs:
           node-version: 18
           registry-url: https://registry.npmjs.org/
       - run: npm ci
-      # - run: npm config set registry https://registry.npmjs.org/
       - run: git config --global user.email "orxtime@gmail.com"
       - run: git config --global user.name "Artem Armashenko"
-      # - run: echo "//registry.npmjs.org/:_authToken=$NPM_PUBLISH_TOKEN" >> ~/.npmrc
       - run: npm version --no-commit-hooks patch
-      # - run: git commit -a -m "Continuous Integration Build Artifacts"
       - run: git remote add gh-origin https://${GITHUB_ACTOR}:${{secrets.GITHUB_TOKEN}}@github.com/${GITHUB_REPOSITORY}.git
       - run: git push gh-origin HEAD:master --tags
         env:
-          # GITHUB_TOKEN: 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
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - run: npm publish
         env:
