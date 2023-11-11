@@ -40,8 +40,8 @@ jobs:
           node-version: 18
           registry-url: https://registry.npmjs.org/
       - run: npm ci
-      - run: git config --global user.email "orxtime@gmail.com"
-      - run: git config --global user.name "Artem Armashenko"
+      - run: git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+      - run: git config --global user.name "${GITHUB_ACTOR}"
       - run: npm version --no-commit-hooks patch
       - run: git remote add gh-origin https://${GITHUB_ACTOR}:${{secrets.GITHUB_TOKEN}}@github.com/${GITHUB_REPOSITORY}.git
       - run: git push gh-origin HEAD:master --tags
