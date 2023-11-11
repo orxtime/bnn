@@ -32,7 +32,6 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: npm ci
       - run: npm config set registry https://registry.npmjs.org/
-      - run: npm adduser
       - run: npm login
       - run: npm publish
         env:
