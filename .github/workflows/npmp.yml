@@ -45,11 +45,11 @@ jobs:
       - run: git config --global user.name "Artem Armashenko"
       # - run: echo "//registry.npmjs.org/:_authToken=$NPM_PUBLISH_TOKEN" >> ~/.npmrc
       - run: npm version --no-commit-hooks patch
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}}
       # - run: git commit -a -m "Continuous Integration Build Artifacts"
       - run: git remote add gh-origin https://${GITHUB_ACTOR}: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@github.com/${GITHUB_REPOSITORY}.git
       - run: git push --no-verify
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}}
