@@ -32,6 +32,8 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: npm ci
       - run: npm config set registry https://registry.npmjs.org/
+      - run: git config --global user.email "orxtime@gmail.com"
+      - run: git config --global user.name "Artem Armashenko"
       - run: npm version patch
       - run: npm publish
         env:
