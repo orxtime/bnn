@@ -44,7 +44,7 @@ jobs:
       - run: git config --global user.email "orxtime@gmail.com"
       - run: git config --global user.name "Artem Armashenko"
       - run: git remote add gh-origin https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-      - run: echo "//registry.npmjs.org/:_authToken=$NPM_PUBLISH_TOKEN" >> ~/.npmrc
+      # - run: echo "//registry.npmjs.org/:_authToken=$NPM_PUBLISH_TOKEN" >> ~/.npmrc
       - run: npm version --no-commit-hooks patch
       - run: npm publish
         env:
