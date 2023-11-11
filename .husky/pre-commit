@@ -4,4 +4,3 @@
 npm run linting
 npm run build --if-present
 npm test
-git add -A .

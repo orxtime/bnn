@@ -1,6 +1,6 @@
 {
-  "name": "bolt-bnn",
-  "version": "1.0.1",
+  "name": "bnnbr",
+  "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "type": "module",
