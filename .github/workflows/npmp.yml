@@ -47,7 +47,7 @@ jobs:
       - run: npm version --no-commit-hooks patch
       # - run: git commit -a -m "Continuous Integration Build Artifacts"
       - run: git remote add gh-origin https://${GITHUB_ACTOR}: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@github.com/${GITHUB_REPOSITORY}.git
-      - run: git push --no-verify
+      - run: git push gh-origin HEAD:master --tags
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - run: npm publish
