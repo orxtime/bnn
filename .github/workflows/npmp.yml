@@ -45,7 +45,7 @@ jobs:
       - run: git config --global user.name "Artem Armashenko"
       - run: npm version --no-commit-hooks patch
       - run: npm publish
-      - run: git commit -a -m "Continuous Integration Build Artifacts"
+      # - run: git commit -a -m "Continuous Integration Build Artifacts"
       - run: git push --no-verify
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}}
