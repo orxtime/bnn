@@ -134,7 +134,7 @@ export class CBNNLayer implements IBNNLayer {
           if (classes[className] === undefined) {
             classes[className] = 0
           }
-          if (this._limitizer(this.classes[className].frequency, this.classes[className].tokens[token].frequency)) {
+          if (await this._limitizer(this.classes[className].frequency, this.classes[className].tokens[token].frequency)) {
             classes[className] += this.classes[className].tokens[token].frequency / this.classes[className].frequency
           }
         }
