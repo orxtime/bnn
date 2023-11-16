@@ -1,7 +1,6 @@
 import { describe, expect, test } from '@jest/globals'
 import BNN from '../src'
 
-
 describe('learning', () => {
   test('simple test', async () => {
     const bayes = BNN()

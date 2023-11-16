@@ -201,7 +201,7 @@ export class CBNN<S extends CBNNSaver, L extends CBNNLoader> {
   }
 }
 
-const BNN = <S extends CBNNSaver, L extends CBNNLoader>(config?: IBNNConfiguration): CBNN<S, L> => {
+export const BNN = <S extends CBNNSaver, L extends CBNNLoader>(config?: IBNNConfiguration): CBNN<S, L> => {
 
   if (config !== undefined) {
     //

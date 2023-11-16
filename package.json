@@ -2,11 +2,12 @@
   "name": "b3-bnn",
   "version": "1.0.12",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
     "dev": "webpack --watch",
-    "build": "webpack",
+    "build": "webpack --stats-error-details",
     "linting": "eslint . --fix",
     "test": "jest",
     "prepare": "husky install",
@@ -19,6 +20,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@commitlint/config-conventional": "18.4.2",
     "@jest/globals": "^29.7.0",
     "@typescript-eslint/eslint-plugin": "^6.9.0",
     "@typescript-eslint/parser": "^6.9.0",
