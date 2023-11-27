@@ -19,8 +19,8 @@ export default {
     path: _resolve(_join('.', 'dist')),
     globalObject: 'this',
     library: {
-      name: 'bnn',
-      type: 'umd'
+      // name: 'bnn',
+      type: 'commonjs-module'
     }
   },
   mode: 'production'
