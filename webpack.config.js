@@ -16,7 +16,13 @@ export default {
   },
   output: {
     filename: 'index.js',
-    path: _resolve(_join('.', 'dist'))
+    path: _resolve(_join('.', 'dist')),
+    globalObject: 'this',
+    library: {
+      name: 'bnn',
+      type: 'umd'
+    }
   },
   mode: 'production'
+  // mode: 'development'
 }
