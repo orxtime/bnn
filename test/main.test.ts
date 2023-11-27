@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals'
-import BNN from '../src'
+import BNN from '../dist'
 
 describe('learning', () => {
   test('simple test', async () => {
