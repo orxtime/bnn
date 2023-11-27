@@ -1,6 +1,7 @@
-import { resolve as _resolve, join as _join } from 'path'
+/* eslint-disable @typescript-eslint/no-var-requires */
+const path = require('path')
 
-export default {
+module.exports = {
   entry: './src/index.ts',
   module: {
     rules: [
@@ -16,7 +17,7 @@ export default {
   },
   output: {
     filename: 'index.js',
-    path: _resolve(_join('.', 'dist')),
+    path: path.resolve(path.join('.', 'dist')),
     globalObject: 'this',
     library: {
       // name: 'bnn',
