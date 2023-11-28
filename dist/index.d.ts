@@ -1,14 +1,25 @@
+/// <reference types="node" />
 export interface IBNNConfiguration {
 }
 export interface IBNNClassifyResult {
     class: string;
     trust: number;
 }
+export interface CBNNSaverOptions {
+    path: string;
+    encoding: BufferEncoding;
+}
 export declare class CBNNSaver {
-    save(): Promise<boolean>;
+    fs: typeof import('fs/promises');
+    save<T extends CBNNSaverOptions>(options: T, data: string): Promise<boolean>;
+}
+export interface CBNNLoaderOptions {
+    path: string;
+    encoding: BufferEncoding;
 }
 export declare class CBNNLoader {
-    load(): Promise<boolean>;
+    fs: typeof import('fs/promises');
+    load<T extends CBNNLoaderOptions>(options: T): Promise<string>;
 }
 export interface IBNNClassInfo {
     key: string;
@@ -60,8 +71,8 @@ export declare class CBNN<S extends CBNNSaver, L extends CBNNLoader> {
     setLoader(loader: L): void;
     learn(layerName: string, phrase: string, className: string): Promise<void>;
     classify(layerName: string, phrase: string): Promise<Array<IBNNClassifyResult>>;
-    save(): Promise<boolean>;
-    loader(): Promise<boolean>;
+    save<T extends CBNNSaverOptions>(options: T): Promise<boolean>;
+    load<T extends CBNNLoaderOptions>(options: T): Promise<boolean>;
 }
 export declare const BNN: <S extends CBNNSaver, L extends CBNNLoader>(config?: IBNNConfiguration) => CBNN<S, L>;
 export default BNN;

@@ -5,12 +5,29 @@ export interface IBNNClassifyResult {
   trust: number
 }
 
+export interface CBNNSaverOptions {
+  path: string
+  encoding: BufferEncoding
+}
+
 export class CBNNSaver {
-  public async save(): Promise<boolean> { return false }
+  public fs: typeof import('fs/promises')
+  public async save<T extends CBNNSaverOptions>(options: T, data: string): Promise<boolean> {
+    await this.fs.writeFile(options.path, data, options.encoding || 'utf-8')
+    return true
+  }
+}
+
+export interface CBNNLoaderOptions {
+  path: string
+  encoding: BufferEncoding
 }
 
 export class CBNNLoader {
-  public async load(): Promise<boolean> { return false }
+  public fs: typeof import('fs/promises')
+  public async load<T extends CBNNLoaderOptions>(options: T): Promise<string> {
+    return await this.fs.readFile(options.path, options.encoding || 'utf-8')
+  }
 }
 
 export interface IBNNClassInfo {
@@ -120,7 +137,45 @@ export class CBNNLayer implements IBNNLayer {
   // public async unlearn(phrase: string, className: string): Promise<void> {
   //   const normalized = await this._normalizer(phrase)
   //   const tokens = await this._sanitizer(await this._tokenizer(normalized))
+  //   this.learnsCount++
+  //   for (const token of tokens) {
 
+  //     if (this.classes[className] === undefined) {
+  //       this.classes[className] = {
+  //         key: className,
+  //         frequency: 0,
+  //         tokens: {}
+  //       }
+  //     }
+  //     this.classes[className].frequency++
+
+  //     if (this.classes[className].tokens[token] === undefined) {
+  //       this.classes[className].tokens[token] = {
+  //         key: token,
+  //         frequency: 0,
+  //         classes: {}
+  //       }
+  //     }
+  //     this.classes[className].tokens[token].frequency++
+
+  //     if (this.vocabulary.tokens[token] === undefined) {
+  //       this.vocabulary.tokens[token] = {
+  //         key: token,
+  //         frequency: 0,
+  //         classes: {}
+  //       }
+  //     }
+  //     this.vocabulary.tokens[token].frequency++
+
+  //     if (this.vocabulary.tokens[token].classes[className] === undefined) {
+  //       this.vocabulary.tokens[token].classes[className] = {
+  //         key: className,
+  //         frequency: 0,
+  //         tokens: {}
+  //       }
+  //     }
+
+  //   }
   //   return
   // }
 
@@ -146,7 +201,7 @@ export class CBNNLayer implements IBNNLayer {
         class: className,
         trust: (classes[className] / total) * 100
       }
-    })
+    }).filter((result) => result.trust && result.trust > 0)
     return result.sort((a, b) => b.trust - a.trust)
   }
 }
@@ -156,7 +211,6 @@ export class CBNN<S extends CBNNSaver, L extends CBNNLoader> {
   private _layers: Record<string, CBNNLayer> = {}
   private _saver: S
   private _loader: L
-
 
   public addLayer(name: string, layer = new CBNNLayer({ key: name })): CBNNLayer {
     this._layers[name] = layer
@@ -192,12 +246,78 @@ export class CBNN<S extends CBNNSaver, L extends CBNNLoader> {
     return layer.classify(phrase)
   }
 
-  public async save(): Promise<boolean> {
-    return await this._saver.save()
+  public async save<T extends CBNNSaverOptions>(options: T): Promise<boolean> {
+    const data: Record<string, Pick<CBNNLayer, 'id' | 'key' | 'vocabulary' | 'learnsCount' | 'classes'>> = {}
+    for (const layerName in this._layers) {
+      if (Object.prototype.hasOwnProperty.call(this._layers, layerName)) {
+        const layer = this._layers[layerName]
+
+        data[layerName] = {
+          id: layer.id,
+          key: layer.key,
+          vocabulary: {
+            tokens: {},
+            size: layer.vocabulary.size
+          },
+          learnsCount: layer.learnsCount,
+          classes: {}
+        }
+
+        for (const tokenName in layer.vocabulary.tokens) {
+          if (Object.prototype.hasOwnProperty.call(layer.vocabulary.tokens, tokenName)) {
+            const token = layer.vocabulary.tokens[tokenName]
+            data[layerName].vocabulary.tokens[tokenName] = {
+              key: token.key,
+              frequency: token.frequency,
+              classes: {}
+            }
+            for (const classnName in token.classes) {
+              if (Object.prototype.hasOwnProperty.call(token.classes, classnName)) {
+                const classInstance = token.classes[classnName]
+                data[layerName].vocabulary.tokens[tokenName].classes[classnName] = {
+                  key: classInstance.key,
+                  frequency: classInstance.frequency,
+                  tokens: {}
+                }
+              }
+            }
+          }
+        }
+
+        for (const classnName in layer.classes) {
+          if (Object.prototype.hasOwnProperty.call(layer.classes, classnName)) {
+            const classInstance = layer.classes[classnName]
+            data[layerName].classes[classnName] = {
+              key: classInstance.key,
+              frequency: classInstance.frequency,
+              tokens: {}
+            }
+            for (const tokenName in classInstance.tokens) {
+              if (Object.prototype.hasOwnProperty.call(classInstance.tokens, tokenName)) {
+                const token = classInstance.tokens[tokenName]
+                data[layerName].classes[classnName].tokens[tokenName] = {
+                  key: token.key,
+                  frequency: token.frequency,
+                  classes: {}
+                }
+              }
+            }
+          }
+        }
+
+      }
+    }
+    return await this._saver.save(options, JSON.stringify(data))
   }
 
-  public async loader(): Promise<boolean> {
-    return await this._loader.load()
+  public async load<T extends CBNNLoaderOptions>(options: T): Promise<boolean> {
+    const data: Record<string, Pick<CBNNLayer, 'id' | 'key' | 'vocabulary' | 'learnsCount' | 'classes'>> = JSON.parse(await this._loader.load(options))
+    for (const layerName in data) {
+      if (Object.prototype.hasOwnProperty.call(data, layerName)) {
+        this._layers[layerName] = new CBNNLayer(data[layerName])
+      }
+    }
+    return
   }
 }
 
