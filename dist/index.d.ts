@@ -58,7 +58,7 @@ export declare class CBNNLayer implements IBNNLayer {
     setSanitizer(f: (tokens: Array<string>) => Promise<Array<string>>): void;
     setLimitizer(f: (classFrequency: number, tokenFrequency: number) => Promise<boolean>): void;
     learn(phrase: string, className: string): Promise<void>;
-    classify(phrase: string): Promise<Array<IBNNClassifyResult>>;
+    classify(phrase: string, debug?: boolean): Promise<Array<IBNNClassifyResult>>;
 }
 export declare class CBNN<S extends CBNNSaver, L extends CBNNLoader> {
     private _layers;
@@ -70,7 +70,7 @@ export declare class CBNN<S extends CBNNSaver, L extends CBNNLoader> {
     setSaver(saver: S): void;
     setLoader(loader: L): void;
     learn(layerName: string, phrase: string, className: string): Promise<void>;
-    classify(layerName: string, phrase: string): Promise<Array<IBNNClassifyResult>>;
+    classify(layerName: string, phrase: string, debug?: boolean): Promise<Array<IBNNClassifyResult>>;
     save<T extends CBNNSaverOptions>(options: T): Promise<boolean>;
     load<T extends CBNNLoaderOptions>(options: T): Promise<boolean>;
 }

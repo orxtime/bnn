@@ -63,9 +63,9 @@ export class CBNNLayer implements IBNNLayer {
   public classes: Record<string, IBNNClassInfo> = {}
 
   private _normalizer = async (phrase: string): Promise<string> => { return phrase }
-  private _tokenizer = async (phrase: string): Promise<Array<string>> => { return phrase.toUpperCase().split(/[\s\.,;:?!"']+/gm) }
+  private _tokenizer = async (phrase: string): Promise<Array<string>> => { return phrase.toUpperCase().split(/[\s\.,;?!"']+/gm) }
   private _sanitizer = async (tokens: Array<string>): Promise<Array<string>> => { return tokens }
-  private _limitizer = async (classFrequency: number, tokenFrequency: number): Promise<boolean> => { return classFrequency > 0 && tokenFrequency > 1 }
+  private _limitizer = async (classFrequency: number, tokenFrequency: number): Promise<boolean> => { return classFrequency > 0 && tokenFrequency > 0 }
 
   constructor(o?: Partial<IBNNLayer>) {
     if (o !== undefined) {
@@ -92,6 +92,7 @@ export class CBNNLayer implements IBNNLayer {
   public async learn(phrase: string, className: string): Promise<void> {
     const normalized = await this._normalizer(phrase)
     const tokens = await this._sanitizer(await this._tokenizer(normalized))
+
     this.learnsCount++
     for (const token of tokens) {
 
@@ -179,7 +180,7 @@ export class CBNNLayer implements IBNNLayer {
   //   return
   // }
 
-  public async classify(phrase: string): Promise<Array<IBNNClassifyResult>> {
+  public async classify(phrase: string, debug: boolean = false): Promise<Array<IBNNClassifyResult>> {
     const normalized = await this._normalizer(phrase)
     const tokens = await this._sanitizer(await this._tokenizer(normalized))
     const classes: Record<string, number> = {}
@@ -190,6 +191,10 @@ export class CBNNLayer implements IBNNLayer {
             classes[className] = 0
           }
           if (await this._limitizer(this.classes[className].frequency, this.classes[className].tokens[token].frequency)) {
+            if (debug) {
+              // eslint-disable-next-line no-console
+              console.log(`T: "${token}" + C: "${className}" --> TF: ${this.classes[className].tokens[token].frequency}; CF: ${this.classes[className].frequency}; CLF: ${this.classes[className].tokens[token].frequency / this.classes[className].frequency};`)
+            }
             classes[className] += this.classes[className].tokens[token].frequency / this.classes[className].frequency
           }
         }
@@ -241,9 +246,9 @@ export class CBNN<S extends CBNNSaver, L extends CBNNLoader> {
     return layer.learn(phrase, className)
   }
 
-  public async classify(layerName: string, phrase: string): Promise<Array<IBNNClassifyResult>> {
+  public async classify(layerName: string, phrase: string, debug: boolean = false): Promise<Array<IBNNClassifyResult>> {
     const layer = this.getLayer(layerName)
-    return layer.classify(phrase)
+    return layer.classify(phrase, debug)
   }
 
   public async save<T extends CBNNSaverOptions>(options: T): Promise<boolean> {
