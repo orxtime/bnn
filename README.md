@@ -1,4 +1,4 @@
-# Naive Bayes classifier
+# 🍌 Naive Bayes classifier
 
 ```
 npm i b3-bnn

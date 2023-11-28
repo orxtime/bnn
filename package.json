@@ -17,7 +17,16 @@
   "publishConfig": {
     "@orxtime:registry": "https://registry.npmjs.org"
   },
-  "keywords": [],
+  "keywords": [
+    "classifier",
+    "categorize",
+    "classify",
+    "neural",
+    "ai",
+    "bayes",
+    "categorization",
+    "machine learning"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
