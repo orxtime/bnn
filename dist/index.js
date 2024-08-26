@@ -1,1 +1,286 @@
-(()=>{"use strict";var e={d:(t,n)=>{for(var r in n)e.o(n,r)&&!e.o(t,r)&&Object.defineProperty(t,r,{enumerable:!0,get:n[r]})},o:(e,t)=>Object.prototype.hasOwnProperty.call(e,t),r:e=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})}},t={};e.r(t),e.d(t,{BNN:()=>u,CBNN:()=>c,CBNNLayer:()=>a,CBNNLayerVocabulary:()=>i,CBNNLoader:()=>o,CBNNSaver:()=>s,default:()=>l});var n=function(e,t,n,r){return new(n||(n=Promise))((function(s,o){function i(e){try{c(r.next(e))}catch(e){o(e)}}function a(e){try{c(r.throw(e))}catch(e){o(e)}}function c(e){var t;e.done?s(e.value):(t=e.value,t instanceof n?t:new n((function(e){e(t)}))).then(i,a)}c((r=r.apply(e,t||[])).next())}))},r=function(e,t){var n,r,s,o,i={label:0,sent:function(){if(1&s[0])throw s[1];return s[1]},trys:[],ops:[]};return o={next:a(0),throw:a(1),return:a(2)},"function"==typeof Symbol&&(o[Symbol.iterator]=function(){return this}),o;function a(a){return function(c){return function(a){if(n)throw new TypeError("Generator is already executing.");for(;o&&(o=0,a[0]&&(i=0)),i;)try{if(n=1,r&&(s=2&a[0]?r.return:a[0]?r.throw||((s=r.return)&&s.call(r),0):r.next)&&!(s=s.call(r,a[1])).done)return s;switch(r=0,s&&(a=[2&a[0],s.value]),a[0]){case 0:case 1:s=a;break;case 4:return i.label++,{value:a[1],done:!1};case 5:i.label++,r=a[1],a=[0];continue;case 7:a=i.ops.pop(),i.trys.pop();continue;default:if(!((s=(s=i.trys).length>0&&s[s.length-1])||6!==a[0]&&2!==a[0])){i=0;continue}if(3===a[0]&&(!s||a[1]>s[0]&&a[1]<s[3])){i.label=a[1];break}if(6===a[0]&&i.label<s[1]){i.label=s[1],s=a;break}if(s&&i.label<s[2]){i.label=s[2],i.ops.push(a);break}s[2]&&i.ops.pop(),i.trys.pop();continue}a=t.call(e,i)}catch(e){a=[6,e],r=0}finally{n=s=0}if(5&a[0])throw a[1];return{value:a[0]?a[1]:void 0,done:!0}}([a,c])}}},s=function(){function e(){}return e.prototype.save=function(e,t){return n(this,void 0,void 0,(function(){return r(this,(function(n){switch(n.label){case 0:return[4,this.fs.writeFile(e.path,t,e.encoding||"utf-8")];case 1:return n.sent(),[2,!0]}}))}))},e}(),o=function(){function e(){}return e.prototype.load=function(e){return n(this,void 0,void 0,(function(){return r(this,(function(t){switch(t.label){case 0:return[4,this.fs.readFile(e.path,e.encoding||"utf-8")];case 1:return[2,t.sent()]}}))}))},e}(),i=function(){this.tokens={}},a=function(){function e(e){var t=this;this.vocabulary=new i,this.learnsCount=0,this.classes={},this._normalizer=function(e){return n(t,void 0,void 0,(function(){return r(this,(function(t){return[2,e]}))}))},this._tokenizer=function(e){return n(t,void 0,void 0,(function(){return r(this,(function(t){return[2,e.toUpperCase().split(/[\s\.,;?!"']+/gm)]}))}))},this._sanitizer=function(e){return n(t,void 0,void 0,(function(){return r(this,(function(t){return[2,e]}))}))},this._limitizer=function(e,s){return n(t,void 0,void 0,(function(){return r(this,(function(t){return[2,e>0&&s>0]}))}))},void 0!==e&&Object.assign(this,e)}return e.prototype.setNormalizer=function(e){this._normalizer=e},e.prototype.setTokenizer=function(e){this._tokenizer=e},e.prototype.setSanitizer=function(e){this._sanitizer=e},e.prototype.setLimitizer=function(e){this._limitizer=e},e.prototype.learn=function(e,t){return n(this,void 0,void 0,(function(){var n,s,o,i,a,c;return r(this,(function(r){switch(r.label){case 0:return[4,this._normalizer(e)];case 1:return n=r.sent(),o=this._sanitizer,[4,this._tokenizer(n)];case 2:return[4,o.apply(this,[r.sent()])];case 3:for(s=r.sent(),this.learnsCount++,i=0,a=s;i<a.length;i++)c=a[i],void 0===this.classes[t]&&(this.classes[t]={key:t,frequency:0,tokens:{}}),this.classes[t].frequency++,void 0===this.classes[t].tokens[c]&&(this.classes[t].tokens[c]={key:c,frequency:0,classes:{}}),this.classes[t].tokens[c].frequency++,void 0===this.vocabulary.tokens[c]&&(this.vocabulary.tokens[c]={key:c,frequency:0,classes:{}}),this.vocabulary.tokens[c].frequency++,void 0===this.vocabulary.tokens[c].classes[t]&&(this.vocabulary.tokens[c].classes[t]={key:t,frequency:0,tokens:{}});return[2]}}))}))},e.prototype.classify=function(e,t){return void 0===t&&(t=!1),n(this,void 0,void 0,(function(){var n,s,o,i,a,c,u,l,f,y,h,p,v,d;return r(this,(function(r){switch(r.label){case 0:return[4,this._normalizer(e)];case 1:return n=r.sent(),o=this._sanitizer,[4,this._tokenizer(n)];case 2:return[4,o.apply(this,[r.sent()])];case 3:s=r.sent(),i={},a=0,c=s,r.label=4;case 4:if(!(a<c.length))return[3,9];if(u=c[a],void 0===this.vocabulary.tokens[u])return[3,8];for(y in l=this.vocabulary.tokens[u].classes,f=[],l)f.push(y);h=0,r.label=5;case 5:return h<f.length?(y=f[h])in l?(void 0===i[p=y]&&(i[p]=0),[4,this._limitizer(this.classes[p].frequency,this.classes[p].tokens[u].frequency)]):[3,7]:[3,8];case 6:r.sent()&&(t&&console.log('T: "'.concat(u,'" + C: "').concat(p,'" --\x3e TF: ').concat(this.classes[p].tokens[u].frequency,"; CF: ").concat(this.classes[p].frequency,"; CLF: ").concat(this.classes[p].tokens[u].frequency/this.classes[p].frequency,";")),i[p]+=this.classes[p].tokens[u].frequency/this.classes[p].frequency),r.label=7;case 7:return h++,[3,5];case 8:return a++,[3,4];case 9:return v=Object.values(i).reduce((function(e,t){return e+t}),0),d=Object.keys(i).map((function(e){return{class:e,trust:i[e]/v*100}})).filter((function(e){return e.trust&&e.trust>0})),[2,d.sort((function(e,t){return t.trust-e.trust}))]}}))}))},e}(),c=function(){function e(){this._layers={}}return e.prototype.addLayer=function(e,t){return void 0===t&&(t=new a({key:e})),this._layers[e]=t,this._layers[e]},e.prototype.removeLayer=function(e){delete this._layers[e]},e.prototype.getLayer=function(e){return this._layers[e]},e.prototype.setSaver=function(e){this._saver=e},e.prototype.setLoader=function(e){this._loader=e},e.prototype.learn=function(e,t,s){return n(this,void 0,void 0,(function(){var n;return r(this,(function(r){return void 0===(n=this.getLayer(e))&&(n=this.addLayer(e)),[2,n.learn(t,s)]}))}))},e.prototype.classify=function(e,t,s){return void 0===s&&(s=!1),n(this,void 0,void 0,(function(){return r(this,(function(n){return[2,this.getLayer(e).classify(t,s)]}))}))},e.prototype.save=function(e){return n(this,void 0,void 0,(function(){var t,n,s,o,i,a,c;return r(this,(function(r){switch(r.label){case 0:for(n in t={},this._layers)if(Object.prototype.hasOwnProperty.call(this._layers,n)){for(a in s=this._layers[n],t[n]={id:s.id,key:s.key,vocabulary:{tokens:{},size:s.vocabulary.size},learnsCount:s.learnsCount,classes:{}},s.vocabulary.tokens)if(Object.prototype.hasOwnProperty.call(s.vocabulary.tokens,a))for(o in c=s.vocabulary.tokens[a],t[n].vocabulary.tokens[a]={key:c.key,frequency:c.frequency,classes:{}},c.classes)Object.prototype.hasOwnProperty.call(c.classes,o)&&(i=c.classes[o],t[n].vocabulary.tokens[a].classes[o]={key:i.key,frequency:i.frequency,tokens:{}});for(o in s.classes)if(Object.prototype.hasOwnProperty.call(s.classes,o))for(a in i=s.classes[o],t[n].classes[o]={key:i.key,frequency:i.frequency,tokens:{}},i.tokens)Object.prototype.hasOwnProperty.call(i.tokens,a)&&(c=i.tokens[a],t[n].classes[o].tokens[a]={key:c.key,frequency:c.frequency,classes:{}})}return[4,this._saver.save(e,JSON.stringify(t))];case 1:return[2,r.sent()]}}))}))},e.prototype.load=function(e){return n(this,void 0,void 0,(function(){var t,n,s,o;return r(this,(function(r){switch(r.label){case 0:return s=(n=JSON).parse,[4,this._loader.load(e)];case 1:for(o in t=s.apply(n,[r.sent()]))Object.prototype.hasOwnProperty.call(t,o)&&(this._layers[o]=new a(t[o]));return[2]}}))}))},e}(),u=function(e){return new c};const l=u;module.exports=t})();
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.BNN = exports.CBNN = exports.CBNNLayer = exports.CBNNLayerVocabulary = exports.CBNNLoader = exports.CBNNSaver = void 0;
+class CBNNSaver {
+    fs;
+    async save(options, data) {
+        await this.fs.writeFile(options.path, data, options.encoding || 'utf-8');
+        return true;
+    }
+}
+exports.CBNNSaver = CBNNSaver;
+class CBNNLoader {
+    fs;
+    async load(options) {
+        return await this.fs.readFile(options.path, options.encoding || 'utf-8');
+    }
+}
+exports.CBNNLoader = CBNNLoader;
+class CBNNLayerVocabulary {
+    tokens = {};
+    size = 0;
+}
+exports.CBNNLayerVocabulary = CBNNLayerVocabulary;
+class CBNNLayer {
+    id = 0;
+    key = '';
+    vocabulary = new CBNNLayerVocabulary();
+    learnsCount = 0;
+    classes = {};
+    _normalizer = async (phrase) => {
+        return phrase;
+    };
+    _tokenizer = async (phrase) => {
+        return phrase.toUpperCase().split(/[\s\.,;?!"']+/gm);
+    };
+    _sanitizer = async (tokens) => {
+        return tokens;
+    };
+    _limitizer = async (classFrequency, tokenFrequency) => {
+        return classFrequency > 0 && tokenFrequency > 0;
+    };
+    constructor(o) {
+        if (o !== undefined) {
+            Object.assign(this, o);
+        }
+    }
+    setNormalizer(f) {
+        this._normalizer = f;
+    }
+    setTokenizer(f) {
+        this._tokenizer = f;
+    }
+    setSanitizer(f) {
+        this._sanitizer = f;
+    }
+    setLimitizer(f) {
+        this._limitizer = f;
+    }
+    async learn(phrase, className) {
+        const normalized = await this._normalizer(phrase);
+        const tokens = await this._sanitizer(await this._tokenizer(normalized));
+        this.learnsCount++;
+        for (const token of tokens) {
+            if (this.classes[className] === undefined) {
+                this.classes[className] = {
+                    key: className,
+                    frequency: 0,
+                    tokens: {}
+                };
+            }
+            this.classes[className].frequency++;
+            if (this.classes[className].tokens[token] === undefined) {
+                this.classes[className].tokens[token] = {
+                    key: token,
+                    frequency: 0,
+                    classes: {}
+                };
+            }
+            this.classes[className].tokens[token].frequency++;
+            if (this.vocabulary.tokens[token] === undefined) {
+                this.vocabulary.tokens[token] = {
+                    key: token,
+                    frequency: 0,
+                    classes: {}
+                };
+            }
+            this.vocabulary.tokens[token].frequency++;
+            if (this.vocabulary.tokens[token].classes[className] === undefined) {
+                this.vocabulary.tokens[token].classes[className] = {
+                    key: className,
+                    frequency: 0,
+                    tokens: {}
+                };
+            }
+        }
+        return;
+    }
+    // public async unlearn(phrase: string, className: string): Promise<void> {
+    //   const normalized = await this._normalizer(phrase)
+    //   const tokens = await this._sanitizer(await this._tokenizer(normalized))
+    //   this.learnsCount++
+    //   for (const token of tokens) {
+    //     if (this.classes[className] === undefined) {
+    //       this.classes[className] = {
+    //         key: className,
+    //         frequency: 0,
+    //         tokens: {}
+    //       }
+    //     }
+    //     this.classes[className].frequency++
+    //     if (this.classes[className].tokens[token] === undefined) {
+    //       this.classes[className].tokens[token] = {
+    //         key: token,
+    //         frequency: 0,
+    //         classes: {}
+    //       }
+    //     }
+    //     this.classes[className].tokens[token].frequency++
+    //     if (this.vocabulary.tokens[token] === undefined) {
+    //       this.vocabulary.tokens[token] = {
+    //         key: token,
+    //         frequency: 0,
+    //         classes: {}
+    //       }
+    //     }
+    //     this.vocabulary.tokens[token].frequency++
+    //     if (this.vocabulary.tokens[token].classes[className] === undefined) {
+    //       this.vocabulary.tokens[token].classes[className] = {
+    //         key: className,
+    //         frequency: 0,
+    //         tokens: {}
+    //       }
+    //     }
+    //   }
+    //   return
+    // }
+    async classify(phrase, debug = false) {
+        const normalized = await this._normalizer(phrase);
+        const tokens = await this._sanitizer(await this._tokenizer(normalized));
+        const classes = {};
+        for (const token of tokens) {
+            if (this.vocabulary.tokens[token] !== undefined) {
+                for (const className in this.vocabulary.tokens[token].classes) {
+                    if (classes[className] === undefined) {
+                        classes[className] = 0;
+                    }
+                    if (await this._limitizer(this.classes[className].frequency, this.classes[className].tokens[token].frequency)) {
+                        if (debug) {
+                            // eslint-disable-next-line no-console
+                            console.log(`T: "${token}" + C: "${className}" --> TF: ${this.classes[className].tokens[token].frequency}; CF: ${this.classes[className].frequency}; CLF: ${this.classes[className].tokens[token].frequency /
+                                this.classes[className].frequency};`);
+                        }
+                        classes[className] +=
+                            this.classes[className].tokens[token].frequency /
+                                this.classes[className].frequency;
+                    }
+                }
+            }
+        }
+        const total = Object.values(classes).reduce((clv, sum) => clv + sum, 0);
+        const result = Object.keys(classes)
+            .map((className) => {
+            return {
+                class: className,
+                trust: (classes[className] / total) * 100
+            };
+        })
+            .filter((result) => result.trust && result.trust > 0);
+        return result.sort((a, b) => b.trust - a.trust);
+    }
+}
+exports.CBNNLayer = CBNNLayer;
+class CBNN {
+    _layers = {};
+    _saver;
+    _loader;
+    addLayer(name, layer = new CBNNLayer({ key: name })) {
+        this._layers[name] = layer;
+        return this._layers[name];
+    }
+    removeLayer(name) {
+        delete this._layers[name];
+    }
+    getLayer(name) {
+        return this._layers[name];
+    }
+    setSaver(saver) {
+        this._saver = saver;
+    }
+    setLoader(loader) {
+        this._loader = loader;
+    }
+    async learn(layerName, phrase, className) {
+        let layer = this.getLayer(layerName);
+        if (layer === undefined) {
+            layer = this.addLayer(layerName);
+        }
+        return layer.learn(phrase, className);
+    }
+    async classify(layerName, phrase, debug = false) {
+        const layer = this.getLayer(layerName);
+        if (layer !== undefined) {
+            return layer.classify(phrase, debug);
+        }
+        else {
+            return [];
+        }
+    }
+    async save(options) {
+        const data = {};
+        for (const layerName in this._layers) {
+            if (Object.prototype.hasOwnProperty.call(this._layers, layerName)) {
+                const layer = this._layers[layerName];
+                data[layerName] = {
+                    id: layer.id,
+                    key: layer.key,
+                    vocabulary: {
+                        tokens: {},
+                        size: layer.vocabulary.size
+                    },
+                    learnsCount: layer.learnsCount,
+                    classes: {}
+                };
+                for (const tokenName in layer.vocabulary.tokens) {
+                    if (Object.prototype.hasOwnProperty.call(layer.vocabulary.tokens, tokenName)) {
+                        const token = layer.vocabulary.tokens[tokenName];
+                        data[layerName].vocabulary.tokens[tokenName] = {
+                            key: token.key,
+                            frequency: token.frequency,
+                            classes: {}
+                        };
+                        for (const className in token.classes) {
+                            if (Object.prototype.hasOwnProperty.call(token.classes, className)) {
+                                const classInstance = token.classes[className];
+                                data[layerName].vocabulary.tokens[tokenName].classes[className] = {
+                                    key: classInstance.key,
+                                    frequency: classInstance.frequency,
+                                    tokens: {}
+                                };
+                            }
+                        }
+                    }
+                }
+                for (const className in layer.classes) {
+                    if (Object.prototype.hasOwnProperty.call(layer.classes, className)) {
+                        const classInstance = layer.classes[className];
+                        data[layerName].classes[className] = {
+                            key: classInstance.key,
+                            frequency: classInstance.frequency,
+                            tokens: {}
+                        };
+                        for (const tokenName in classInstance.tokens) {
+                            if (Object.prototype.hasOwnProperty.call(classInstance.tokens, tokenName)) {
+                                const token = classInstance.tokens[tokenName];
+                                data[layerName].classes[className].tokens[tokenName] = {
+                                    key: token.key,
+                                    frequency: token.frequency,
+                                    classes: {}
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return await this._saver.save(options, JSON.stringify(data));
+    }
+    async load(options) {
+        const data = JSON.parse(await this._loader.load(options));
+        for (const layerName in data) {
+            if (Object.prototype.hasOwnProperty.call(data, layerName)) {
+                this._layers[layerName] = new CBNNLayer(data[layerName]);
+            }
+        }
+        return true;
+    }
+}
+exports.CBNN = CBNN;
+const BNN = (config) => {
+    if (config !== undefined) {
+        //
+    }
+    return new CBNN();
+};
+exports.BNN = BNN;
+exports.default = exports.BNN;

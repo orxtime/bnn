@@ -1,22 +1,21 @@
 {
+  "extends": "@tsconfig/node20/tsconfig.json",
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Node 20",
+  "_version": "20.1.0",
+
   "compilerOptions": {
-    "rootDir": "./src/",
-    "outDir": "./dist/",
-    "sourceMap": true,
-    "declaration": true,
-    "declarationDir": "dist",
-    "declarationMap": true,
-    "noImplicitAny": true,
-    "module": "ESNext",
-    "target": "ES5",
-    "jsx": "react",
-    "allowJs": true,
+    "lib": ["es2023"],
+    "module": "node16",
+    "target": "es2022",
+
+    "strict": true,
     "esModuleInterop": true,
-    "moduleResolution": "node"
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node16",
+    "outDir": "./dist",
+    "rootDir": "./src"
   },
-  "exclude": [
-    "./test/*",
-    "./dist/*",
-    "./*.js"
-  ]
+  "include": ["src/**/*.ts"]
 }
