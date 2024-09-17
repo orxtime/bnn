@@ -1,4 +1,5 @@
 import BNN, { CBNNSaver, CBNNLoader } from '.'
+import fs from 'fs/promises'
 
 const save = async () => {
   const bayes = BNN()
@@ -51,11 +52,41 @@ const save = async () => {
 }
 
 const load = async () => {
-  const bayes = BNN()
+  // const bayes = BNN()
 
-  const l = new CBNNLoader()
-  l.fs = await import('fs/promises')
-  bayes.setLoader(l)
+  // const l = new CBNNLoader()
+  // l.fs = await import('fs/promises')
+  // bayes.setLoader(l)
+
+  // await bayes.load({
+  //   path: 'dataset.json',
+  //   encoding: 'utf-8'
+  // })
+
+  // const sLayer = bayes.getLayer('thread-length')
+
+  // if (sLayer !== undefined) {
+  //   sLayer.setNormalizer(async (phrase) => {
+  //     let p = phrase
+  //     // Remove standard spaces
+  //     p = p.replace(/DIN\s*(\d+)/gm, 'DIN:$1')
+  //     p = p.replace(/GOST\s*(\d+)/gm, 'GOST:$1')
+  //     return p
+  //   })
+
+  //   const answers = await sLayer.classify(
+  //     'What is the thread length of the DIN 933 bolt with dimensions 6x80?'
+  //   )
+
+  //   console.log(answers)
+
+  const bayes = BNN()
+  const saver = new CBNNSaver()
+  saver.fs = fs
+  bayes.setSaver(saver)
+  const loader = new CBNNLoader()
+  loader.fs = fs
+  bayes.setLoader(loader)
 
   await bayes.load({
     path: 'dataset.json',

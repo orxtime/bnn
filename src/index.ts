@@ -109,94 +109,139 @@ export class CBNNLayer implements IBNNLayer {
     this._limitizer = f
   }
 
-  public async learn(phrase: string, className: string): Promise<void> {
+  public async learn(
+    phrase: string,
+    className: string,
+    weight: number = 1
+  ): Promise<void> {
     const normalized = await this._normalizer(phrase)
     const tokens = await this._sanitizer(await this._tokenizer(normalized))
-
     this.learnsCount++
     for (const token of tokens) {
-      if (this.classes[className] === undefined) {
-        this.classes[className] = {
-          key: className,
-          frequency: 0,
-          tokens: {}
-        }
-      }
-      this.classes[className].frequency++
-
-      if (this.classes[className].tokens[token] === undefined) {
-        this.classes[className].tokens[token] = {
-          key: token,
-          frequency: 0,
-          classes: {}
-        }
-      }
-      this.classes[className].tokens[token].frequency++
-
-      if (this.vocabulary.tokens[token] === undefined) {
-        this.vocabulary.tokens[token] = {
-          key: token,
-          frequency: 0,
-          classes: {}
-        }
-      }
-      this.vocabulary.tokens[token].frequency++
-
-      if (this.vocabulary.tokens[token].classes[className] === undefined) {
-        this.vocabulary.tokens[token].classes[className] = {
-          key: className,
-          frequency: 0,
-          tokens: {}
-        }
-      }
+      await this.learnToken(token, className, weight)
     }
     return
   }
 
-  // public async unlearn(phrase: string, className: string): Promise<void> {
-  //   const normalized = await this._normalizer(phrase)
-  //   const tokens = await this._sanitizer(await this._tokenizer(normalized))
-  //   this.learnsCount++
-  //   for (const token of tokens) {
+  public async learnToken(
+    token: string,
+    className: string,
+    weight: number = 1
+  ): Promise<void> {
+    if (this.classes[className] === undefined) {
+      this.classes[className] = {
+        key: className,
+        frequency: 0,
+        tokens: {}
+      }
+    }
+    this.classes[className].frequency += weight
 
-  //     if (this.classes[className] === undefined) {
-  //       this.classes[className] = {
-  //         key: className,
-  //         frequency: 0,
-  //         tokens: {}
-  //       }
-  //     }
-  //     this.classes[className].frequency++
+    if (this.classes[className].tokens[token] === undefined) {
+      this.classes[className].tokens[token] = {
+        key: token,
+        frequency: 0,
+        classes: {}
+      }
+    }
+    this.classes[className].tokens[token].frequency += weight
 
-  //     if (this.classes[className].tokens[token] === undefined) {
-  //       this.classes[className].tokens[token] = {
-  //         key: token,
-  //         frequency: 0,
-  //         classes: {}
-  //       }
-  //     }
-  //     this.classes[className].tokens[token].frequency++
+    if (this.vocabulary.tokens[token] === undefined) {
+      this.vocabulary.tokens[token] = {
+        key: token,
+        frequency: 0,
+        classes: {}
+      }
+    }
+    this.vocabulary.tokens[token].frequency += weight
 
-  //     if (this.vocabulary.tokens[token] === undefined) {
-  //       this.vocabulary.tokens[token] = {
-  //         key: token,
-  //         frequency: 0,
-  //         classes: {}
-  //       }
-  //     }
-  //     this.vocabulary.tokens[token].frequency++
+    if (this.vocabulary.tokens[token].classes[className] === undefined) {
+      this.vocabulary.tokens[token].classes[className] = {
+        key: className,
+        frequency: 0,
+        tokens: {}
+      }
+    }
+  }
 
-  //     if (this.vocabulary.tokens[token].classes[className] === undefined) {
-  //       this.vocabulary.tokens[token].classes[className] = {
-  //         key: className,
-  //         frequency: 0,
-  //         tokens: {}
-  //       }
-  //     }
+  public async unlearn(
+    phrase: string,
+    className: string,
+    weight: number = 1
+  ): Promise<void> {
+    const normalized = await this._normalizer(phrase)
+    const tokens = await this._sanitizer(await this._tokenizer(normalized))
+    this.learnsCount++
+    for (const token of tokens) {
+      await this.unlearnToken(token, className, weight)
+    }
+    return
+  }
 
-  //   }
-  //   return
-  // }
+  public async unlearnToken(
+    token: string,
+    className: string,
+    weight: number = 1
+  ): Promise<void> {
+    if (this.classes[className] === undefined) {
+      this.classes[className] = {
+        key: className,
+        frequency: 0,
+        tokens: {}
+      }
+    }
+    this.classes[className].frequency -= weight
+
+    if (this.classes[className].frequency <= 0) {
+      this.classes[className].frequency = 1
+    }
+
+    if (this.classes[className].tokens[token] === undefined) {
+      this.classes[className].tokens[token] = {
+        key: token,
+        frequency: 0,
+        classes: {}
+      }
+    }
+    this.classes[className].tokens[token].frequency -= weight
+
+    if (this.classes[className].tokens[token].frequency <= 0) {
+      this.classes[className].tokens[token].frequency = 1
+    }
+
+    if (this.vocabulary.tokens[token] === undefined) {
+      this.vocabulary.tokens[token] = {
+        key: token,
+        frequency: 0,
+        classes: {}
+      }
+    }
+    this.vocabulary.tokens[token].frequency -= weight
+
+    if (this.vocabulary.tokens[token].frequency <= 0) {
+      this.vocabulary.tokens[token].frequency = 1
+    }
+
+    if (this.vocabulary.tokens[token].classes[className] === undefined) {
+      this.vocabulary.tokens[token].classes[className] = {
+        key: className,
+        frequency: 0,
+        tokens: {}
+      }
+    }
+  }
+
+  public async getTokenStats(
+    token: string
+  ): Promise<IBNNTokenInfo | undefined> {
+    return this.vocabulary.tokens[token]
+  }
+
+  public async getClassStats(
+    className: string
+  ): Promise<IBNNClassInfo | undefined> {
+    return this.classes[className]
+  }
 
   public async classify(
     phrase: string,
