@@ -1,4 +1,4 @@
-import BNN, { CBNNSaver, CBNNLoader } from '.'
+import BNN, {CBNNSaver, CBNNLoader} from '.'
 import fs from 'fs/promises'
 
 const save = async () => {
@@ -47,7 +47,7 @@ const save = async () => {
 
   await bayes.save({
     path: 'dataset.json',
-    encoding: 'utf-8'
+    encoding: 'utf-8',
   })
 }
 
@@ -90,7 +90,7 @@ const load = async () => {
 
   await bayes.load({
     path: 'dataset.json',
-    encoding: 'utf-8'
+    encoding: 'utf-8',
   })
 
   const sLayer = bayes.getLayer('thread-length')
