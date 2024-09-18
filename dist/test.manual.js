@@ -49,7 +49,7 @@ const save = async () => {
     await sLayer.learn('The bolt DIN 931 with dimensions of 6x80 has a thread length', 'partly');
     await bayes.save({
         path: 'dataset.json',
-        encoding: 'utf-8'
+        encoding: 'utf-8',
     });
 };
 const load = async () => {
@@ -83,7 +83,7 @@ const load = async () => {
     bayes.setLoader(loader);
     await bayes.load({
         path: 'dataset.json',
-        encoding: 'utf-8'
+        encoding: 'utf-8',
     });
     const sLayer = bayes.getLayer('thread-length');
     if (sLayer !== undefined) {

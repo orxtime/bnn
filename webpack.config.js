@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const path = require('path')
+const path = require('path');
 
 module.exports = {
   entry: './src/index.ts',
@@ -8,12 +8,12 @@ module.exports = {
       {
         test: /\.tsx?$/,
         use: 'ts-loader',
-        exclude: /node_modules/
-      }
-    ]
+        exclude: /node_modules/,
+      },
+    ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js']
+    extensions: ['.tsx', '.ts', '.js',],
   },
   output: {
     filename: 'index.js',
@@ -21,9 +21,9 @@ module.exports = {
     globalObject: 'this',
     library: {
       // name: 'bnn',
-      type: 'commonjs-module'
-    }
+      type: 'commonjs-module',
+    },
   },
-  mode: 'production'
+  mode: 'production',
   // mode: 'development'
-}
+};

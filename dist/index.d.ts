@@ -10,7 +10,7 @@ export interface CBNNSaverOptions {
     encoding: BufferEncoding;
 }
 export declare class CBNNSaver {
-  fs: typeof import('fs/promises')
+  fs: typeof import('fs/promises');
   save<T extends CBNNSaverOptions>(options: T, data: string): Promise<boolean>;
 }
 export interface CBNNLoaderOptions {
@@ -18,7 +18,7 @@ export interface CBNNLoaderOptions {
     encoding: BufferEncoding;
 }
 export declare class CBNNLoader {
-  fs: typeof import('fs/promises')
+  fs: typeof import('fs/promises');
   load<T extends CBNNLoaderOptions>(options: T): Promise<string>;
 }
 export interface IBNNClassInfo {
@@ -32,8 +32,8 @@ export interface IBNNTokenInfo {
     classes: Record<string, IBNNClassInfo>;
 }
 export declare class CBNNLayerVocabulary {
-  tokens: Record<string, IBNNTokenInfo>
-  size: number
+  tokens: Record<string, IBNNTokenInfo>;
+  size: number;
 }
 export interface IBNNLayer {
     id: number;
@@ -43,15 +43,15 @@ export interface IBNNLayer {
     classes: Record<string, IBNNClassInfo>;
 }
 export declare class CBNNLayer implements IBNNLayer {
-  id: number
-  key: string
-  vocabulary: CBNNLayerVocabulary
-  learnsCount: number
-  classes: Record<string, IBNNClassInfo>
-  private _normalizer
-  private _tokenizer
-  private _sanitizer
-  private _limitizer
+  id: number;
+  key: string;
+  vocabulary: CBNNLayerVocabulary;
+  learnsCount: number;
+  classes: Record<string, IBNNClassInfo>;
+  private _normalizer;
+  private _tokenizer;
+  private _sanitizer;
+  private _limitizer;
   constructor(o?: Partial<IBNNLayer>);
   setNormalizer(f: (phrase: string) => Promise<string>): void;
   setTokenizer(f: (phrase: string) => Promise<Array<string>>): void;
@@ -61,9 +61,9 @@ export declare class CBNNLayer implements IBNNLayer {
   classify(phrase: string, debug?: boolean): Promise<Array<IBNNClassifyResult>>;
 }
 export declare class CBNN<S extends CBNNSaver, L extends CBNNLoader> {
-  private _layers
-  private _saver
-  private _loader
+  private _layers;
+  private _saver;
+  private _loader;
   addLayer(name: string, layer?: CBNNLayer): CBNNLayer;
   removeLayer(name: string): void;
   getLayer(name: string): CBNNLayer | undefined;
@@ -74,6 +74,6 @@ export declare class CBNN<S extends CBNNSaver, L extends CBNNLoader> {
   save<T extends CBNNSaverOptions>(options: T): Promise<boolean>;
   load<T extends CBNNLoaderOptions>(options: T): Promise<boolean>;
 }
-export declare const BNN: <S extends CBNNSaver, L extends CBNNLoader>(config?: IBNNConfiguration) => CBNN<S, L>
-export default BNN
+export declare const BNN: <S extends CBNNSaver, L extends CBNNLoader>(config?: IBNNConfiguration) => CBNN<S, L>;
+export default BNN;
 //# sourceMappingURL=index.d.ts.map

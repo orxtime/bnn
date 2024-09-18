@@ -11,12 +11,12 @@ export interface CBNNSaverOptions {
 }
 
 export class CBNNSaver {
-  public fs!: typeof import("fs/promises");
+  public fs!: typeof import('fs/promises');
   public async save<T extends CBNNSaverOptions>(
     options: T,
     data: string
   ): Promise<boolean> {
-    await this.fs.writeFile(options.path, data, options.encoding || "utf-8");
+    await this.fs.writeFile(options.path, data, options.encoding || 'utf-8');
     return true;
   }
 }
@@ -27,9 +27,9 @@ export interface CBNNLoaderOptions {
 }
 
 export class CBNNLoader {
-  public fs!: typeof import("fs/promises");
+  public fs!: typeof import('fs/promises');
   public async load<T extends CBNNLoaderOptions>(options: T): Promise<string> {
-    return await this.fs.readFile(options.path, options.encoding || "utf-8");
+    return await this.fs.readFile(options.path, options.encoding || 'utf-8');
   }
 }
 
@@ -60,7 +60,7 @@ export interface IBNNLayer {
 
 export class CBNNLayer implements IBNNLayer {
   public id: number = 0;
-  public key: string = "";
+  public key: string = '';
   public vocabulary: CBNNLayerVocabulary = new CBNNLayerVocabulary();
   public learnsCount = 0;
   public classes: Record<string, IBNNClassInfo> = {};
@@ -114,7 +114,7 @@ export class CBNNLayer implements IBNNLayer {
     className: string,
     weight: number = 1
   ): Promise<void> {
-    if (phrase.trim() !== "") {
+    if (phrase.trim() !== '') {
       const normalized = await this._normalizer(phrase);
       const tokens = await this._sanitizer(await this._tokenizer(normalized));
       if (tokens.length) {
@@ -173,7 +173,7 @@ export class CBNNLayer implements IBNNLayer {
     className: string,
     weight: number = 1
   ): Promise<void> {
-    if (phrase.trim() !== "") {
+    if (phrase.trim() !== '') {
       const normalized = await this._normalizer(phrase);
       const tokens = await this._sanitizer(await this._tokenizer(normalized));
       if (tokens.length) {
@@ -308,7 +308,7 @@ export class CBNN<S extends CBNNSaver, L extends CBNNLoader> {
 
   public addLayer(
     name: string,
-    layer = new CBNNLayer({ key: name })
+    layer = new CBNNLayer({ key: name, })
   ): CBNNLayer {
     this._layers[name] = layer;
     return this._layers[name];
@@ -358,7 +358,7 @@ export class CBNN<S extends CBNNSaver, L extends CBNNLoader> {
   public async save<T extends CBNNSaverOptions>(options: T): Promise<boolean> {
     const data: Record<
       string,
-      Pick<CBNNLayer, "id" | "key" | "vocabulary" | "learnsCount" | "classes">
+      Pick<CBNNLayer, 'id' | 'key' | 'vocabulary' | 'learnsCount' | 'classes'>
     > = {};
     for (const layerName in this._layers) {
       if (Object.prototype.hasOwnProperty.call(this._layers, layerName)) {
@@ -438,7 +438,7 @@ export class CBNN<S extends CBNNSaver, L extends CBNNLoader> {
   public async load<T extends CBNNLoaderOptions>(options: T): Promise<boolean> {
     const data: Record<
       string,
-      Pick<CBNNLayer, "id" | "key" | "vocabulary" | "learnsCount" | "classes">
+      Pick<CBNNLayer, 'id' | 'key' | 'vocabulary' | 'learnsCount' | 'classes'>
     > = JSON.parse(await this._loader.load(options));
     for (const layerName in data) {
       if (Object.prototype.hasOwnProperty.call(data, layerName)) {

@@ -57,11 +57,15 @@ class CBNNLayer {
         this._limitizer = f;
     }
     async learn(phrase, className, weight = 1) {
-        const normalized = await this._normalizer(phrase);
-        const tokens = await this._sanitizer(await this._tokenizer(normalized));
-        this.learnsCount++;
-        for (const token of tokens) {
-            await this.learnToken(token, className, weight);
+        if (phrase.trim() !== '') {
+            const normalized = await this._normalizer(phrase);
+            const tokens = await this._sanitizer(await this._tokenizer(normalized));
+            if (tokens.length) {
+                this.learnsCount++;
+                for (const token of tokens) {
+                    await this.learnToken(token, className, weight);
+                }
+            }
         }
         return;
     }
@@ -70,7 +74,7 @@ class CBNNLayer {
             this.classes[className] = {
                 key: className,
                 frequency: 0,
-                tokens: {}
+                tokens: {},
             };
         }
         this.classes[className].frequency += weight;
@@ -78,7 +82,7 @@ class CBNNLayer {
             this.classes[className].tokens[token] = {
                 key: token,
                 frequency: 0,
-                classes: {}
+                classes: {},
             };
         }
         this.classes[className].tokens[token].frequency += weight;
@@ -86,7 +90,7 @@ class CBNNLayer {
             this.vocabulary.tokens[token] = {
                 key: token,
                 frequency: 0,
-                classes: {}
+                classes: {},
             };
         }
         this.vocabulary.tokens[token].frequency += weight;
@@ -94,16 +98,20 @@ class CBNNLayer {
             this.vocabulary.tokens[token].classes[className] = {
                 key: className,
                 frequency: 0,
-                tokens: {}
+                tokens: {},
             };
         }
     }
     async unlearn(phrase, className, weight = 1) {
-        const normalized = await this._normalizer(phrase);
-        const tokens = await this._sanitizer(await this._tokenizer(normalized));
-        this.learnsCount++;
-        for (const token of tokens) {
-            await this.unlearnToken(token, className, weight);
+        if (phrase.trim() !== '') {
+            const normalized = await this._normalizer(phrase);
+            const tokens = await this._sanitizer(await this._tokenizer(normalized));
+            if (tokens.length) {
+                this.learnsCount++;
+                for (const token of tokens) {
+                    await this.unlearnToken(token, className, weight);
+                }
+            }
         }
         return;
     }
@@ -112,7 +120,7 @@ class CBNNLayer {
             this.classes[className] = {
                 key: className,
                 frequency: 0,
-                tokens: {}
+                tokens: {},
             };
         }
         this.classes[className].frequency -= weight;
@@ -123,7 +131,7 @@ class CBNNLayer {
             this.classes[className].tokens[token] = {
                 key: token,
                 frequency: 0,
-                classes: {}
+                classes: {},
             };
         }
         this.classes[className].tokens[token].frequency -= weight;
@@ -134,7 +142,7 @@ class CBNNLayer {
             this.vocabulary.tokens[token] = {
                 key: token,
                 frequency: 0,
-                classes: {}
+                classes: {},
             };
         }
         this.vocabulary.tokens[token].frequency -= weight;
@@ -145,7 +153,7 @@ class CBNNLayer {
             this.vocabulary.tokens[token].classes[className] = {
                 key: className,
                 frequency: 0,
-                tokens: {}
+                tokens: {},
             };
         }
     }
@@ -183,7 +191,7 @@ class CBNNLayer {
             .map((className) => {
             return {
                 class: className,
-                trust: (classes[className] / total) * 100
+                trust: (classes[className] / total) * 100,
             };
         })
             .filter((result) => result.trust && result.trust > 0);
@@ -195,7 +203,7 @@ class CBNN {
     _layers = {};
     _saver;
     _loader;
-    addLayer(name, layer = new CBNNLayer({ key: name })) {
+    addLayer(name, layer = new CBNNLayer({ key: name, })) {
         this._layers[name] = layer;
         return this._layers[name];
     }
@@ -237,10 +245,10 @@ class CBNN {
                     key: layer.key,
                     vocabulary: {
                         tokens: {},
-                        size: layer.vocabulary.size
+                        size: layer.vocabulary.size,
                     },
                     learnsCount: layer.learnsCount,
-                    classes: {}
+                    classes: {},
                 };
                 for (const tokenName in layer.vocabulary.tokens) {
                     if (Object.prototype.hasOwnProperty.call(layer.vocabulary.tokens, tokenName)) {
@@ -248,7 +256,7 @@ class CBNN {
                         data[layerName].vocabulary.tokens[tokenName] = {
                             key: token.key,
                             frequency: token.frequency,
-                            classes: {}
+                            classes: {},
                         };
                         for (const className in token.classes) {
                             if (Object.prototype.hasOwnProperty.call(token.classes, className)) {
@@ -256,7 +264,7 @@ class CBNN {
                                 data[layerName].vocabulary.tokens[tokenName].classes[className] = {
                                     key: classInstance.key,
                                     frequency: classInstance.frequency,
-                                    tokens: {}
+                                    tokens: {},
                                 };
                             }
                         }
@@ -268,7 +276,7 @@ class CBNN {
                         data[layerName].classes[className] = {
                             key: classInstance.key,
                             frequency: classInstance.frequency,
-                            tokens: {}
+                            tokens: {},
                         };
                         for (const tokenName in classInstance.tokens) {
                             if (Object.prototype.hasOwnProperty.call(classInstance.tokens, tokenName)) {
@@ -276,7 +284,7 @@ class CBNN {
                                 data[layerName].classes[className].tokens[tokenName] = {
                                     key: token.key,
                                     frequency: token.frequency,
-                                    classes: {}
+                                    classes: {},
                                 };
                             }
                         }
